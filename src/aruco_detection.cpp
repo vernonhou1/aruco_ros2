@@ -3,7 +3,7 @@
 #include <string>
 #include <memory>
 #include <algorithm>
-#include "aruco_det/aruco_node.hpp"
+#include "ros2_aruco/aruco_node.hpp"
 #include <cv_bridge/cv_bridge.h>
 #include <sensor_msgs/msg/image.hpp>
 #include <sensor_msgs/image_encodings.hpp>
@@ -25,6 +25,12 @@ ArucoDetc::ArucoDetc (const std::string &name, rclcpp::NodeOptions const &option
 
   image_pub_ = create_publisher<sensor_msgs::msg::Image>("/out_image", 10);
   }
+
+  cv::Mat cameraMatrix, distCoeffs;
+  cameraMatrix = ( 812.719599,0
+    cam_fy: 807.743248
+    cam_cx: 483.202377
+    cam_cy: 25.312940)
 
   ArucoDetc::~ArucoDetc(){
     canceled_.store(true);

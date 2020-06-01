@@ -1,4 +1,4 @@
-#include "aruco_det/aruco_node.hpp"
+#include "ros2_aruco/aruco_node.hpp"
 #include <memory>
 
 int main(int argc, char ** argv) {

@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.5)
-project(aruco_det)
+project(ros2_aruco)
 
 
 
@@ -18,15 +18,15 @@ find_package(sensor_msgs REQUIRED)
 
 
 
-add_executable(aruco_det src/aruco_node.cpp src/aruco_detection.cpp)
+add_executable(ros2_aruco src/aruco_node.cpp src/aruco_detection.cpp)
 
-target_include_directories(aruco_det PUBLIC
+target_include_directories(ros2_aruco PUBLIC
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
   $<INSTALL_INTERFACE:include>)
 
-target_link_libraries(aruco_det ${OpenCV_LIBS})
+target_link_libraries(ros2_aruco ${OpenCV_LIBS})
 
-ament_target_dependencies(aruco_det
+ament_target_dependencies(ros2_aruco
   rclcpp
   rclcpp_components
   cv_bridge
@@ -34,7 +34,7 @@ ament_target_dependencies(aruco_det
 
 
 install(TARGETS
-  aruco_det
+  detection
  DESTINATION lib/${PROJECT_NAME}
  )
 
