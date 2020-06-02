@@ -18,15 +18,15 @@ find_package(sensor_msgs REQUIRED)
 
 
 
-add_executable(ros2_aruco src/aruco_node.cpp src/aruco_detection.cpp)
+add_executable(detection src/aruco_node.cpp src/aruco_detection.cpp)
 
-target_include_directories(ros2_aruco PUBLIC
+target_include_directories(detection PUBLIC
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
   $<INSTALL_INTERFACE:include>)
 
-target_link_libraries(ros2_aruco ${OpenCV_LIBS})
+target_link_libraries(detection ${OpenCV_LIBS})
 
-ament_target_dependencies(ros2_aruco
+ament_target_dependencies(detection
   rclcpp
   rclcpp_components
   cv_bridge
