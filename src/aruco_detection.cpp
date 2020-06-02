@@ -71,8 +71,6 @@ ArucoDetc::ArucoDetc (const std::string &name, rclcpp::NodeOptions const &option
   cam_param_.d1 = declare_parameter<double>("cam_d1", 0);
   cam_param_.d2 = declare_parameter<double>("cam_d2", 0);
   cam_param_.d3 = declare_parameter<double>("cam_d3", 0);
-  block_size_ = declare_parameter<int>("block_size", 25);
-  offset_value_ = declare_parameter<int>("offset_value", 10.0);
 
   set_on_parameters_set_callback(
       [this](std::vector<rclcpp::Parameter> parameters) -> rcl_interfaces::msg::SetParametersResult {
@@ -102,10 +100,6 @@ ArucoDetc::ArucoDetc (const std::string &name, rclcpp::NodeOptions const &option
     cam_param_.d2 = param.as_double();
   }else if (param.get_name() == "cam_d3"){
     cam_param_.d3 = param.as_double();
-  }else if (param.get_name() == "block_size"){
-    cam_param_.d3 = param.as_int();
-  }else if (param.get_name() == "offset_value"){
-    cam_param_.d3 = param.as_double();
   }{
     return false;
   }
@@ -118,15 +112,14 @@ ArucoDetc::ArucoDetc (const std::string &name, rclcpp::NodeOptions const &option
     auto outImg = std::make_unique<sensor_msgs::msg::Image>();
     
     cv::Mat img = cv_ptr -> image;
-    cv::Mat dst;
-    cv::adaptiveThreshold(img, dst, 255, cv::ADAPTIVE_THRESH_MEAN_C, cv::THRESH_BINARY, block_size_, offset_size);
 
+  
     std::vector<int> markerIds;
     std::vector<std::vector<cv::Point2f>> markerCorners, rejectedCandidates;
     cv::Ptr<cv::aruco::DetectorParameters> parameters = cv::aruco::DetectorParameters::create();
     cv::Ptr<cv::aruco::Dictionary> dictionary = cv::aruco::getPredefinedDictionary(cv::aruco::DICT_6X6_250);
-    cv::aruco::detectMarkers(dst, dictionary, markerCorners, markerIds, parameters, rejectedCandidates);
-    cv::Mat outputImage = dst.clone();
+    cv::aruco::detectMarkers(img, dictionary, markerCorners, markerIds, parameters, rejectedCandidates);
+    cv::Mat outputImage = img.clone();
     
     if (markerIds.size() > 0) {
         cv::aruco::drawDetectedMarkers(outputImage, markerCorners, markerIds);

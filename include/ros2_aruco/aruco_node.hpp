@@ -29,8 +29,6 @@ protected:
   std::vector<cv::Vec3d> rvecs, tvecs;
   cv::Mat cameraMatrix;
   cv::Mat distorsionCoeff;
-  int block_size_;
-  double offset_value_;
   struct CamParam {
     double fx;
     double fy;
